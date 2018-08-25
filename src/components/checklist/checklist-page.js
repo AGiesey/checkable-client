@@ -1,33 +1,31 @@
 import React, { Component } from 'react';
+import axios from 'axios';
 import ChecklistGrid from './checklist-grid';
 import AddChecklist from './add-checklist';
 import EditChecklist from './edit-checklist';
 
 export default class ChecklistPage extends Component {
-  allChecklists = [
-    {id: 1, name: 'first', ownerId: 5, items: [
-      {id: 1, checklistId: 1, name: 'Do Some Stuff', status: 1},
-      {id: 2, checklistId: 1, name: 'Do Some More Stuff', status: 0},
-      {id: 3, checklistId: 1, name: 'Redo The Stuff', status: 0}
-    ]},
-    {id: 2, name: 'second', ownerId: 5, items: []},
-    {id: 3, name: 'third', ownerId: 5, items: []},
-    {id: 4, name: 'fourth', ownerId: 5, items: []},
-    {id: 5, name: 'fifth', ownerId: 5, items: []}
-  ]
 
   constructor(props) {
     super(props);
     this.state = {
       selectedChecklist: undefined,
       newChecklist: undefined,
-      allChecklists: this.allChecklists
+      allChecklists: [],
     }
 
     this.createNewChecklist = this.createNewChecklist.bind(this);
     this.selectChecklist = this.selectChecklist.bind(this);
     this.saveChecklist = this.saveChecklist.bind(this);
     this.addItemToChecklist = this.addItemToChecklist.bind(this);
+  }
+
+  componentDidMount() {
+    // TODO: Read best implementation. In angular it would be an injected service, but that doesn't look like what we want to do in react.
+    axios.get('http://localhost:3001/checklists/findAllForUser/5b7e24420acc82270ce5d04d')
+      .then(res => {
+        this.setState({allChecklists: res.data})
+      })
   }
 
   createNewChecklist() {
@@ -79,7 +77,7 @@ export default class ChecklistPage extends Component {
     return (
       <div className="container"> 
         <div className="row">
-          <ChecklistGrid checklists={this.allChecklists} onCreateNewChecklist={this.createNewChecklist} onSelectChecklist={this.selectChecklist} />
+          <ChecklistGrid checklists={this.state.allChecklists} onCreateNewChecklist={this.createNewChecklist} onSelectChecklist={this.selectChecklist} />
           {this.renderRight()}
         </div>
       </div>

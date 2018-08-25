@@ -23,7 +23,7 @@ export default class EditChecklist extends Component {
   
   renderChecklistItem(item) {
     return (
-      <li key={item.id.toString()} className="list-group-item">
+      <li key={item._id} className="list-group-item">
         <span className="item-checked-input-container"><input type="checkbox" onClick={() => this.toggleItem(item)} /></span> 
         <span>{item.name}</span> 
       </li>
