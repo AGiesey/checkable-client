@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import axios from 'axios';
+import { ChecklistsService } from '../../utils/checklists-service';
 import ChecklistGrid from './checklist-grid';
 import AddChecklist from './add-checklist';
 import EditChecklist from './edit-checklist';
@@ -11,7 +11,7 @@ export default class ChecklistPage extends Component {
     this.state = {
       selectedChecklist: undefined,
       newChecklist: undefined,
-      allChecklists: [],
+      allChecklists: undefined,
     }
 
     this.createNewChecklist = this.createNewChecklist.bind(this);
@@ -22,9 +22,9 @@ export default class ChecklistPage extends Component {
 
   componentDidMount() {
     // TODO: Read best implementation. In angular it would be an injected service, but that doesn't look like what we want to do in react.
-    axios.get('http://localhost:3001/checklists/findAllForUser/5b7e24420acc82270ce5d04d')
-      .then(res => {
-        this.setState({allChecklists: res.data})
+    ChecklistsService.findAllForUser('5b7e24420acc82270ce5d04d')
+      .then(checklists => {
+        this.setState({allChecklists: checklists})
       })
   }
 
@@ -77,7 +77,10 @@ export default class ChecklistPage extends Component {
     return (
       <div className="container"> 
         <div className="row">
-          <ChecklistGrid checklists={this.state.allChecklists} onCreateNewChecklist={this.createNewChecklist} onSelectChecklist={this.selectChecklist} />
+          {!this.state.allChecklists 
+            ? <p>LOADING</p>
+            : <ChecklistGrid checklists={this.state.allChecklists} onCreateNewChecklist={this.createNewChecklist} onSelectChecklist={this.selectChecklist} />
+          }
           {this.renderRight()}
         </div>
       </div>
