@@ -1,7 +1,31 @@
 import React, { Component } from 'react';
-import './edit-checklist.css'
+import { withStyles } from '@material-ui/core/styles';
+import Paper from '@material-ui/core/Paper';
+import AppBar from '@material-ui/core/AppBar';
+import Toolbar from '@material-ui/core/Toolbar';
+import Button from '@material-ui/core/Button';
+import Grid from '@material-ui/core/Grid';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import Divider from '@material-ui/core/Divider';
+import TextField from '@material-ui/core/TextField';
+import Typography from '@material-ui/core/Typography';
 
-export default class EditChecklist extends Component {
+const styles = theme => ({
+  container: {
+    display: 'flex',
+  },
+  textField: {
+    marginLeft: theme.spacing.unit,
+    marginRight: theme.spacing.unit,
+    width: 200,
+  },
+  menu: {
+    width: 200,
+  },
+});
+
+class EditChecklist extends Component {
 
   constructor(props) {
     super(props)
@@ -23,10 +47,12 @@ export default class EditChecklist extends Component {
   
   renderChecklistItem(item) {
     return (
-      <li key={item._id} className="list-group-item">
-        <span className="item-checked-input-container"><input type="checkbox" onClick={() => this.toggleItem(item)} /></span> 
-        <span>{item.name}</span> 
-      </li>
+      <React.Fragment>
+        <ListItem key={item._id}>
+          <Typography>{item.name}</Typography>
+        </ListItem>
+        <Divider />
+      </React.Fragment>
     )
   }
 
@@ -38,40 +64,58 @@ export default class EditChecklist extends Component {
   }
 
   render() {
+    const { classes } = this.props;
     let checklistItems = this.props.checklist.items.map(item => this.renderChecklistItem(item));
     let newChecklistItemForm;
 
     if (this.state.addNew) {
       newChecklistItemForm = 
-      <div className="jumbotron">
+      <div >
         <form onSubmit={this.addNewChecklistItem}>
-          <div className="form-group">
+          <div >
             <label>Name</label>
-            <input type="text" name="name" className="form-control" />
+            <input type="text" name="name"  />
           </div>
-          <button type="submit" className="btn btn-outline-success btn-sm">Save</button>
+          <button type="submit" >Save</button>
         </form>
       </div>
     }
 
     return (
-      <div className="col">
-        <h5>{this.props.checklist.name} Checklist</h5>
-        {newChecklistItemForm}
-        <form onSubmit={this.editChecklist}>
-          <div className="form-group">
-            <label>Name</label>
-            <input type="text" className="form-control" value={this.props.checklist.name} onChange={this.handleNameChange}/>
-          </div>
+      <React.Fragment>
+        <Grid item xs={6}>
+          <Paper>
+            <AppBar position="static" color="default">
+              <Toolbar>
+                <Typography variant="headline" component="h3" className={classes.flex}>
+                  {this.props.checklist.name} Checklist
+                </Typography>
+              </Toolbar>
+            </AppBar>
           
-          <ul className="list-group">
-            <li className="list-group-item">
-              <span>Items <button type="button" className="btn btn-outline-primary btn-sm" onClick={() => this.setState({addNew: true})}>Add</button></span>
-            </li>
-            {checklistItems}
-          </ul>  
-        </form>
-      </div>
+            {newChecklistItemForm}
+            <form onSubmit={this.editChecklist}>
+              <TextField 
+                label="Name"
+                value={this.props.checklist.name}
+                onChange={this.handleNameChange}
+                className={classes.textField}
+              />
+              
+              <List>
+                <ListItem>
+                  <Typography variant='title'>Items</Typography>
+                  <Button type="button"  onClick={() => this.setState({addNew: true})}>Add</Button>
+                </ListItem>
+                <Divider />
+                {checklistItems}
+              </List>  
+            </form>
+          </Paper>
+        </Grid>  
+      </React.Fragment>
     )
   }
 }
+
+export default withStyles(styles)(EditChecklist);

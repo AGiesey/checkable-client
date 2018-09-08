@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { ChecklistsService } from '../../utils/checklists-service';
+import { BrowserRouter as router } from 'react-router-dom';
 import ChecklistGrid from './checklist-grid';
 import AddChecklist from './add-checklist';
 import EditChecklist from './edit-checklist';
@@ -50,12 +51,15 @@ export default class ChecklistPage extends Component {
   }
 
   saveChecklist(checklist) {
+
+    // TODO: implement this with the api
+
     if (checklist.id) {
       let existingChecklist = this.allChecklists.find(existingChecklist => existingChecklist.id === checklist.id);
       existingChecklist.name = checklist.name;
     }
     else {
-      checklist.id = Math.max(...this.allChecklists.map(cl => cl.id)) + 1;
+      checklist._id = 'ljsdfjw' + this.allChecklists.length + 1;
       checklist.ownerId = 5;
       checklist.items = [];
       this.allChecklists.push(checklist);
@@ -75,15 +79,14 @@ export default class ChecklistPage extends Component {
 
   render() {
     return (
-      <div className="container"> 
-        <div className="row">
+      <main>
+
           {!this.state.allChecklists 
             ? <p>LOADING</p>
             : <ChecklistGrid checklists={this.state.allChecklists} onCreateNewChecklist={this.createNewChecklist} onSelectChecklist={this.selectChecklist} />
           }
           {this.renderRight()}
-        </div>
-      </div>
+      </main>
     )
   }
 }
