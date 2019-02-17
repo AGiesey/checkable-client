@@ -17,24 +17,21 @@ class HomePage extends React.Component {
       this.setState({ 
           user: JSON.parse(localStorage.getItem('user')),
           checklists: []
+      }, () => {
+        ChecklistsService.findAllForUser(this.state.user._id).then(checklists => this.setState({ checklists }));
       });
-      ChecklistsService.findAllForUser('5bcbe5000de26a859ef10632').then(checklists => this.setState({ checklists }));
   }
 
   render() {
       const { user, checklists } = this.state;
 
       const checklistsList = () => checklists.map(checklist => <li key={checklist._id}>{checklist.name}</li>)
-      console.log('USER', user);
       return (
           <div className="col-md-6 col-md-offset-3">
-              <h3>Adam Giesey's Checklists:</h3>
+              <h3>{`${user.givenName} ${user.surName}'s Checklists:`}</h3>
               <ul>
                 {checklistsList()}
               </ul>
-              <p>
-                <Link to="/login">Logout</Link>
-              </p>
           </div>
       );
   }
