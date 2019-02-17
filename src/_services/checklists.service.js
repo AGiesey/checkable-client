@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-export const ChecklistsService = {
+const ChecklistsService = {
 
   findAllForUser: function(userId) {
     const encodedURI = window.encodeURI('http://localhost:3001/checklists/findAllForUser/' + userId)
@@ -11,3 +11,5 @@ export const ChecklistsService = {
       })
   }
 }
+
+export { ChecklistsService };

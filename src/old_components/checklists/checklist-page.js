@@ -23,7 +23,7 @@ export default class ChecklistPage extends Component {
 
   componentDidMount() {
     // TODO: Read best implementation. In angular it would be an injected service, but that doesn't look like what we want to do in react.
-    ChecklistsService.findAllForUser('5b7e24420acc82270ce5d04d')
+    ChecklistsService.findAllForUser('5bcbe5000de26a859ef10632')
       .then(checklists => {
         this.setState({allChecklists: checklists})
       })
