@@ -1,7 +1,7 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 
-import { LoginPage } from '../LoginPage/LoginPage';
+import { UsersService } from '../_services/users.service';
 
 class AppBar extends React.Component {
   constructor(props) {
@@ -9,8 +9,22 @@ class AppBar extends React.Component {
 
     this.state = {
       user: undefined,
-      loggedIn: false
+      loggedIn: false,
+      redirectToLogin: false,
     }
+
+    this.logout = this.logout.bind(this);
+  }
+
+  logout() {
+    UsersService.logout()
+    .then(() => {
+      this.setState({
+        redirectToLogin: true,
+        user: undefined,
+        loggedIn: false
+      })
+    });
   }
 
   componentDidMount() {
@@ -24,19 +38,23 @@ class AppBar extends React.Component {
   
 
   render() {
+    if (this.state.redirectToLogin) {
+      return <Redirect to='/login' />
+    }
+
     const NavToolbar = () => {
       if (this.state.loggedIn) {
         return (
           <React.Fragment>
-            <li><Link to={'/'}>Checklists</Link></li>
-            <li><Link to={'profile'}>Profile</Link></li>
+            <li><Link to={'/checklists'}>Checklists</Link></li>
+            <li><Link to={'/profile'}>Profile</Link></li>
           </React.Fragment>
         );
       }
     }
     const NavUserInfo = () => (
       this.state.loggedIn
-        ? <p className="navbar-text navbar-right">Welcome, {this.state.user.givenName}! </p>
+        ? <p className="navbar-text navbar-right">Welcome, {this.state.user.givenName}! &nbsp;&nbsp;<span  className="btn btn-warning btn-xs" onClick={this.logout}>Logout</span></p>
         : ''
     )
 

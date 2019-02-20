@@ -6,12 +6,37 @@ const UsersService = {
 
     return axios.post(encodedURI, { password: password })
       .then(response => {
-        if (response && response.status == 200) {
+        if (response && response.status === 200) {
           const user = response.data;
           user.authData = window.btoa(`${useremail}:${password}`);
           localStorage.setItem('user', JSON.stringify(user))
         }
       })
+  },
+
+  logout: function() {
+    // TODO: logout on server too, after implementing tokenized auth.
+    return new Promise((resolve, reject) => {
+      resolve(localStorage.removeItem('user'))
+    })
+    
+  },
+
+  createUser: function(givenName, surName, email, password) {
+    const encodedURI = window.encodeURI(`http://localhost:3001/users/createNewUser`);
+
+    return axios.post(encodedURI, {
+      givenName: givenName,
+      surName: surName,
+      password: password,
+      email: email
+    }).then(response => {
+      if (response && response.status === 200) {
+        const user = response.data;
+        user.authData = window.btoa(`${email}:${password}`);
+        localStorage.setItem('user', JSON.stringify(user))
+      }
+    })
   }
 }
 

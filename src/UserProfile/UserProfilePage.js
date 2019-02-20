@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { AppBar } from '../_components/AppBar';
+import { AppBar } from '../App/AppBar';
 
 class UserProfilePage extends React.Component {
   constructor(props) {

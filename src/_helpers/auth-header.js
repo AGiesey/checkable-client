@@ -1,3 +1,4 @@
+// TODO: Implement token and add to requests
 export function authHeader() {
   let user = JSON.parse(localStorage.getItem('user'));
 

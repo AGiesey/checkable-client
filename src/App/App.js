@@ -1,10 +1,11 @@
 import React from 'react';
-import { BrowserRouter as Router, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
-import { PrivateRoute } from '../_components/PrivateRoute';
-import { LoginPage } from '../LoginPage/LoginPage';
-import { HomePage } from '../HomePage/HomePage';
-import { UserProfilePage } from '../UserProfilePage/UserProfilePage';
+import { PrivateRoute } from './PrivateRoute';
+import { LoginPage } from '../Login/LoginPage';
+import { ChecklistsPage } from '../Checklists/ChecklistsPage';
+import { UserProfilePage } from '../UserProfile/UserProfilePage';
+import { SignUpPage } from '../SignUp/SignUpPage';
 
 // TODO: implement css in js instead of style tag
 var appStyle = {
@@ -13,23 +14,20 @@ var appStyle = {
   height: '100vh'
 }
 
-class App extends React.Component {
-  
-  render() {
-    return (
-      <div className="container" style={appStyle}>
-        <div className="col-sm-12">
-          <Router>
-            <div>
-              <PrivateRoute exact path="/" component={HomePage} />
-              <PrivateRoute exact path="/profile" component={UserProfilePage} />
-              <Route path="/login" component={LoginPage} />
-            </div>
-          </Router>
-        </div>
-      </div>
-    )
-  }
-}
+const App = (props) => (
+  <div className="container" style={appStyle}>
+    <div className="col-sm-12">
+      <Router>
+        <Switch>
+          {/* <Redirect from="/" to="/checklists" /> Causing error about redirecting to a route I'm already on */}
+          <PrivateRoute path="/checklists" component={ChecklistsPage} />
+          <PrivateRoute path="/profile" component={UserProfilePage} />
+          <Route path="/login" component={LoginPage} />
+          <Route path="/sign-up" component={SignUpPage} />
+        </Switch>
+      </Router>
+    </div>
+  </div>
+)
 
 export { App }

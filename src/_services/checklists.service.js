@@ -9,6 +9,15 @@ const ChecklistsService = {
       .then(res => {
         return res.data
       })
+  },
+
+  findById: function(checklistId) {
+    const encodedURI = window.encodeURI('http://localhost:3001/checklists/findById/' + checklistId)
+    
+    return axios.get(encodedURI)
+      .then(res => {
+        return res.data
+      })
   }
 }
 
