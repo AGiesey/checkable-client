@@ -41,7 +41,7 @@ class SignUpPage extends React.Component {
     UsersService.createUser(givenName, surName, username, password)
       .then(
         user => {
-          const { from } = { from: { pathname: "/"} };
+          const { from } = { from: { pathname: "/checklists"} };
           this.props.history.push(from);
         },
         error => this.setState({ error, loading: false })
