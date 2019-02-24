@@ -53,7 +53,7 @@ class Checklist extends React.Component {
     return (
       <div className="col-md-6 col-md-offset-3">
         <h2>{checklist.name}
-          <button type="button" className="btn btn-default" style={{float: 'right'}} data-toggle="modal" data-target="#editChecklist">
+          <button type="button" className="btn btn-default chk-float-right" data-toggle="modal" data-target="#editChecklist">
             Edit
           </button>
         </h2>
@@ -74,11 +74,11 @@ class Checklist extends React.Component {
         </div>
         <hr />
         <h3>Items:
-          <button type="button" className="btn btn-default" style={{float: 'right'}} data-toggle="modal" data-target="#addItem">
+          <button type="button" className="btn btn-default chk-float-right" data-toggle="modal" data-target="#addItem">
             Add
           </button>
         </h3>
-        <div className="col-md-11" style={{paddingLeft: 0}}>
+        <div className="col-md-11 chk-pull-to-left-edge">
         <br />
           {checklist.items.map(item => <ChecklistItem key={item._id} item={item}/>)}
         </div>

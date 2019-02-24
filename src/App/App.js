@@ -7,15 +7,8 @@ import { ChecklistsPage } from '../Checklists/ChecklistsPage';
 import { UserProfilePage } from '../UserProfile/UserProfilePage';
 import { SignUpPage } from '../SignUp/SignUpPage';
 
-// TODO: implement css in js instead of style tag
-var appStyle = {
-  paddingTop: '50px',
-  width: '100%',
-  height: '100vh'
-}
-
 const App = (props) => (
-  <div className="container" style={appStyle}>
+  <div id="chk-root-container" className="container">
     <div className="col-sm-12">
       <Router>
         <Switch>
