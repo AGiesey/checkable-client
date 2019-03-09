@@ -80,7 +80,7 @@ class Checklist extends React.Component {
         </h3>
         <div className="col-md-11 chk-pull-to-left-edge">
         <br />
-          {checklist.items.map(item => <ChecklistItem key={item._id} item={item}/>)}
+          {checklist.items.map(item => <ChecklistItem key={item._id} item={item} checklistId={checklist._id}/>)}
         </div>
         <div className="modal fade" id="addItem" tabIndex="-1" role="dialog">
           <div className="modal-dialog" role="document">

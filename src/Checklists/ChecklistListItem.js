@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 
 const ChecklistListItem  = ({ checklist }) => (
-  <li className="list-group-item"><Link to={`/checklists/${checklist._id}`}>{checklist.name}</Link></li>
+  <li className="list-group-item"><Link to={`/checklists/checklist/${checklist._id}`}>{checklist.name}</Link></li>
 )
 
 ChecklistListItem.propTypes = {

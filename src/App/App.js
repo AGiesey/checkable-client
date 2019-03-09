@@ -6,6 +6,7 @@ import { LoginPage } from '../Login/LoginPage';
 import { ChecklistsPage } from '../Checklists/ChecklistsPage';
 import { UserProfilePage } from '../UserProfile/UserProfilePage';
 import { SignUpPage } from '../SignUp/SignUpPage';
+import { SplashPage } from '../Splash/SplashPage';
 
 const App = (props) => (
   <div id="chk-root-container" className="container">
@@ -17,6 +18,7 @@ const App = (props) => (
           <PrivateRoute path="/profile" component={UserProfilePage} />
           <Route path="/login" component={LoginPage} />
           <Route path="/sign-up" component={SignUpPage} />
+          <Route exact path="/" component={SplashPage} />
         </Switch>
       </Router>
     </div>

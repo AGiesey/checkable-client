@@ -14,6 +14,7 @@ class EditChecklistMeta extends React.Component {
 
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.deleteChecklist = this.deleteChecklist.bind(this);
   }
 
   handleChange(e) {
@@ -47,6 +48,15 @@ class EditChecklistMeta extends React.Component {
     }
   }
 
+  deleteChecklist(e) {
+    e.preventDefault();
+
+    ChecklistsService.deleteChecklist(this.props.checklistId)
+      .then(
+        () => alert('Checklist Deleted')
+      )
+  }
+
   render() {
     const {statusId, name} = this.state;
     return (
@@ -68,7 +78,7 @@ class EditChecklistMeta extends React.Component {
           </div>
           <hr />
           <div>
-            <button type="button" className="btn btn-warning">Delete Checklist</button>&nbsp;
+            <button type="button" className="btn btn-warning" onClick={this.deleteChecklist}>Delete Checklist</button>&nbsp;
             <button type="submit" className="btn btn-primary">Save</button>
           </div>
         </form>

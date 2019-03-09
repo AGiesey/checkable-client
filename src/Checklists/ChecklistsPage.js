@@ -5,6 +5,7 @@ import { ChecklistsService } from '../_services/checklists.service';
 
 import { AppBar } from '../App/AppBar';
 import { ChecklistList } from './ChecklistList';
+import { CreateChecklist } from './CreateChecklist';
 import { Checklist } from './Checklist';
 
 class ChecklistsPage extends React.Component {
@@ -32,7 +33,8 @@ class ChecklistsPage extends React.Component {
       <React.Fragment>
         <AppBar />
         <Route exact path="/checklists" render={(props) => <ChecklistList {...props} user={user} checklists={checklists}/>} />
-        <Route path="/checklists/:checklistId" render={(props) => <Checklist {...props} />} />
+        <Route path="/checklists/checklist/:checklistId" render={(props) => <Checklist {...props} />} />
+        <Route path="/checklists/create" render={(props) => <CreateChecklist {...props} userId={user._id} />} />
       </React.Fragment>
     );
   }
