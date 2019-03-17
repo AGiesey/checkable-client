@@ -1,5 +1,8 @@
 import React from 'react';
 
+import { connect } from 'react-redux';
+import { getAllChecklists } from '../_redux/selectors'
+
 import { ChecklistsService } from '../_services/checklists.service';
 import { CreateChecklistItem } from './ChecklistItems/CreateChecklistItem';
 import { EditChecklist } from './EditChecklist';
@@ -14,6 +17,8 @@ class Checklist extends React.Component {
       loading: true,
       checklist: {}
     }
+    console.log('HERE', this.state);
+    console.log('PROPS', this.props);
 
     this.handleChange = this.handleChange.bind(this);
   }
@@ -115,4 +120,10 @@ class Checklist extends React.Component {
   }
 }
 
+const mapStateToProps = state => {
+  const checklists = getAllChecklists(state)
+  return { checklists };
+}
+
+Checklist = connect(mapStateToProps)(Checklist)
 export { Checklist };

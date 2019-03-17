@@ -1,6 +1,9 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
+import { Provider } from 'react-redux';
+import store from '../_redux/store';
+
 import { PrivateRoute } from './PrivateRoute';
 import { LoginPage } from '../Login/LoginPage';
 import { ChecklistsPage } from '../Checklists/ChecklistsPage';
@@ -9,19 +12,21 @@ import { SignUpPage } from '../SignUp/SignUpPage';
 import { SplashPage } from '../Splash/SplashPage';
 
 const App = (props) => (
-  <div id="chk-root-container" className="container">
-    <div className="col-sm-12">
-      <Router>
-        <Switch>
-          <PrivateRoute path="/checklists" component={ChecklistsPage} />
-          <PrivateRoute path="/profile" component={UserProfilePage} />
-          <Route path="/login" component={LoginPage} />
-          <Route path="/sign-up" component={SignUpPage} />
-          <Route exact path="/" component={SplashPage} />
-        </Switch>
-      </Router>
+  <Provider store={store}>
+    <div id="chk-root-container" className="container">
+      <div className="col-sm-12">
+        <Router>
+          <Switch>
+            <PrivateRoute path="/checklists" component={ChecklistsPage} />
+            <PrivateRoute path="/profile" component={UserProfilePage} />
+            <Route path="/login" component={LoginPage} />
+            <Route path="/sign-up" component={SignUpPage} />
+            <Route exact path="/" component={SplashPage} />
+          </Switch>
+        </Router>
+      </div>
     </div>
-  </div>
+  </Provider>
 )
 
 export { App }

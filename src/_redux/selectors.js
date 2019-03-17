@@ -1,0 +1,1 @@
+export const getAllChecklists = store => store.checklists;
