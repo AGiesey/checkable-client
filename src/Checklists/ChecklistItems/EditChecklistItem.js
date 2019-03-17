@@ -61,10 +61,9 @@ class EditChecklistItem extends React.Component {
     const { name, statusId } = this.state;
 
     return (
-      
       <div>
         <form name="editChecklistItemForm" onSubmit={this.handleSubmit}>
-          <div className="row" >
+          <div className="row">
             <div className="col-md-6">
               <div className="form-group">
                 <label htmlFor="name">Item Name:</label>

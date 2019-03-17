@@ -33,7 +33,7 @@ class CreateChecklistItem extends React.Component {
     return (
       <div>
         <form name="addChecklistItemForm" onSubmit={this.handleSubmit}>
-          <div className="col-med-6">
+          <div className="col-md-12">
             <div className="form-group">
               <label htmlFor="name">Name:</label>
               <input type="text" className="form-control" name="name" value={name} onChange={this.handleChange}></input>

@@ -3,7 +3,7 @@ import React from 'react';
 import { ChecklistStatuses } from '../_helpers/checklist-statuses'
 import { ChecklistsService } from '../_services/checklists.service';
 
-class EditChecklistMeta extends React.Component {
+class EditChecklist extends React.Component {
   constructor(props) {
     super(props);
 
@@ -62,13 +62,13 @@ class EditChecklistMeta extends React.Component {
     return (
       <div>
         <form name="editChecklistForm" onSubmit={this.handleSubmit}>
-          <div className="col-med-6">
+          <div className="col-md-6">
             <div className="form-group">
               <label htmlFor="name">Name:</label>
               <input type="text" className="form-control" name="name" value={name} onChange={this.handleChange}></input>
             </div>
           </div>
-          <div className="col-med-6">
+          <div className="col-md-6">
             <div className="form-group">
               <label htmlFor="status">Status:</label>
               <select className="form-control" name="statusId" value={statusId} onChange={this.handleChange}>
@@ -88,4 +88,4 @@ class EditChecklistMeta extends React.Component {
   }
 }
 
-export { EditChecklistMeta };
+export { EditChecklist };

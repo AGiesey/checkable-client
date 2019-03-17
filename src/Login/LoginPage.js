@@ -31,7 +31,7 @@ class LoginPage extends React.Component {
     this.setState({ submitted: true });
     const { username, password } = this.state;
 
-    if (!(username && password)) {
+    if (!username || !password) {
       return;
     }
 

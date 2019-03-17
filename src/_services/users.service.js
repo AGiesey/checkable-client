@@ -37,6 +37,24 @@ const UsersService = {
         localStorage.setItem('user', JSON.stringify(user))
       }
     })
+  },
+
+  updateUserName: function(userId, newUserName) {
+    return axios.put(`http://localhost:3001/users/${userId}/updateUserName`, newUserName)
+      .then(
+        response => {
+          const user = response.data;
+          this.updateLocalStorageUser(user)
+          return user
+        }
+      );
+  },
+
+  updateLocalStorageUser(user) {
+    user.authData = JSON.parse(localStorage.getItem('user')).authData;
+    localStorage.setItem('user', JSON.stringify(user))
+    
+    console.log('Local Storage User', JSON.parse(localStorage.getItem('user')));
   }
 }
 

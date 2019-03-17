@@ -13,7 +13,6 @@ const App = (props) => (
     <div className="col-sm-12">
       <Router>
         <Switch>
-          {/* <Redirect from="/" to="/checklists" /> Causing error about redirecting to a route I'm already on */}
           <PrivateRoute path="/checklists" component={ChecklistsPage} />
           <PrivateRoute path="/profile" component={UserProfilePage} />
           <Route path="/login" component={LoginPage} />

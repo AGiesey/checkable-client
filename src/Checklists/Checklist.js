@@ -2,7 +2,7 @@ import React from 'react';
 
 import { ChecklistsService } from '../_services/checklists.service';
 import { CreateChecklistItem } from './ChecklistItems/CreateChecklistItem';
-import { EditChecklistMeta } from './EditChecklistMeta';
+import { EditChecklist } from './EditChecklist';
 import { ChecklistItem } from './ChecklistItems/ChecklistItem';
 import { EditChecklistItem } from './ChecklistItems/EditChecklistItem';
 
@@ -44,11 +44,6 @@ class Checklist extends React.Component {
 
     if(loading) {
       return <h4>Loading...</h4>
-    }
-    const tryThis = {
-      one: 'two',
-      two: 'four',
-      three: 'six'
     }
     return (
       <div className="col-md-6 col-md-offset-3">
@@ -103,7 +98,7 @@ class Checklist extends React.Component {
                 <h4 className="modal-title" id="myModalLabel">Edit Checklist</h4>
               </div>
               <div className="modal-body">
-                <EditChecklistMeta checklistId={checklist._id} name={checklist.name} statusId={checklist.status.id}/>
+                <EditChecklist checklistId={checklist._id} name={checklist.name} statusId={checklist.status.id}/>
               </div>
             </div>
           </div>
