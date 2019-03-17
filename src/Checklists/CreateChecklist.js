@@ -1,4 +1,5 @@
 import React from 'react';
+import { Redirect } from 'react-router-dom';
 
 import { ChecklistsService } from '../_services/checklists.service';
 import '../_styles/create-checklist.css';
@@ -10,8 +11,10 @@ class CreateChecklist extends React.Component {
     this.state = {
       name: '',
       newItemName: '',
-      items: []
+      items: [],
+      id: undefined
     }
+    
     this.handleChange = this.handleChange.bind(this);
     this.addChecklistItem = this.addChecklistItem.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -51,12 +54,18 @@ class CreateChecklist extends React.Component {
 
     ChecklistsService.createChecklist(checklist)
       .then(checklist => {
-        console.log('CREATE', checklist);
+        this.setState({id: checklist._id})
       })
   }
 
   render() {
-    const { items, name, newItemName } = this.state;
+    const { items, name, newItemName, id } = this.state;
+
+    // Checklist has been created, go to it instead of staying on the create page.
+    if (id) {
+      return <Redirect to={`/checklists/checklist/${id}`} />
+    } 
+
     return (
       <div className="col-md-6 col-md-offset-3">
         <h2>Create New Checklist</h2>
@@ -70,7 +79,10 @@ class CreateChecklist extends React.Component {
           <div className="form-group">
             <label htmlFor="name">Add New Item:</label>
             <input type="text" className="form-control" name="newItemName" value={newItemName} onChange={this.handleChange}></input>
-            <button type="button" className="btn btn-default" onClick={this.addChecklistItem}>Add</button>
+            
+          </div>
+          <div>
+            <button type="button" className="btn btn-info" onClick={this.addChecklistItem}>Add</button>
           </div>
           <hr />
           <h3>Items:</h3>

@@ -1,4 +1,5 @@
 import React from 'react';
+import { Redirect } from 'react-router-dom';
 
 import { ChecklistStatuses } from '../_helpers/checklist-statuses'
 import { ChecklistsService } from '../_services/checklists.service';
@@ -9,7 +10,8 @@ class EditChecklist extends React.Component {
 
     this.state = {
       name: this.props.name,
-      statusId: this.props.statusId
+      statusId: this.props.statusId,
+      checklistDeleted: false
     }
 
     this.handleChange = this.handleChange.bind(this);
@@ -53,13 +55,24 @@ class EditChecklist extends React.Component {
 
     ChecklistsService.deleteChecklist(this.props.checklistId)
       .then(
-        () => alert('Checklist Deleted')
+        () => {
+          alert('Checklist Deleted');
+          this.setState({
+            checklistDeleted: true
+          })
+        }
       )
   }
 
   render() {
-    const {statusId, name} = this.state;
+    const {statusId, name, checklistDeleted} = this.state;
+
+    if (checklistDeleted) {
+      return <Redirect to="/checklists" />
+    }
+
     return (
+      
       <div>
         <form name="editChecklistForm" onSubmit={this.handleSubmit}>
           <div className="col-md-6">
@@ -83,7 +96,6 @@ class EditChecklist extends React.Component {
           </div>
         </form>
       </div>
-      
     )
   }
 }

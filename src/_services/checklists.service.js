@@ -32,6 +32,7 @@ const ChecklistsService = {
 
   createChecklist: function(checklist) {
     return axios.post(`http://localhost:3001/checklists/createNewChecklist`, checklist)
+      .then(res => res.data);
   },
 
   deleteChecklist: function(checklistId) {

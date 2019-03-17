@@ -4,7 +4,7 @@ import { ChecklistsService } from '../_services/checklists.service';
 import { CreateChecklistItem } from './ChecklistItems/CreateChecklistItem';
 import { EditChecklist } from './EditChecklist';
 import { ChecklistItem } from './ChecklistItems/ChecklistItem';
-import { EditChecklistItem } from './ChecklistItems/EditChecklistItem';
+
 
 class Checklist extends React.Component {
   constructor(props) {
@@ -37,6 +37,12 @@ class Checklist extends React.Component {
           checklist: checklist
         })
       })
+  }
+
+  componentWillUnmount() {
+    // TODO: This is an embarrising hack because I've stooped to using bootstrap 3, replace all.
+    const closeButton = document.getElementById('close-edit-checklist')
+    closeButton.click();
   }
 
   render() {
@@ -94,7 +100,7 @@ class Checklist extends React.Component {
           <div className="modal-dialog" role="document">
             <div className="modal-content">
               <div className="modal-header">
-                <button type="button" className="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <button type="button" className="close" id="close-edit-checklist" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 <h4 className="modal-title" id="myModalLabel">Edit Checklist</h4>
               </div>
               <div className="modal-body">
