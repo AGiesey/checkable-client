@@ -26,7 +26,7 @@ class EditChecklistItem extends React.Component {
     e.preventDefault();
     const requests = []
     // If the ui updated the value, its probably a string.
-    const statusIdInt = Number.parseInt(this.state.statusId);
+    const statusIdInt = Number.parseInt(this.state.statusId, 10);
 
     if(!(this.props.name === this.state.name)) {
       requests.push(ChecklistsService.updateChecklistItemName(this.props.checklistId, this.props.itemId, this.state.name))

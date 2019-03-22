@@ -1,6 +1,6 @@
 import { combineReducers } from 'redux';
 
 import checklists from './checklists';
+import user from './user';
 
-// I know I only have one, but for memorie's sake - this is easier.
-export default combineReducers({ checklists });
+export default combineReducers({ checklists, user });
