@@ -1,5 +1,7 @@
 import {
-  ADD_CURRENT_USER
+  ADD_CURRENT_USER,
+  REMOVE_CURRENT_USER,
+  IS_FETCHING
 } from '../actionTypes';
 
 const initialState = {
@@ -13,8 +15,17 @@ export default function(state = initialState, action) {
     case ADD_CURRENT_USER:
       return Object.assign({}, state, {
         currentUser: action.user,
-        isLoggedIn: true
+        isLoggedIn: !!action.user
       });
+    case REMOVE_CURRENT_USER:
+      return Object.assign({}, state, {
+        currentUser: {},
+        isLoggedIn: false
+      })
+    case IS_FETCHING:
+      return Object.assign({}, state, {
+        isFetching: action.isFetching
+      })
     default: 
       return state;
   }

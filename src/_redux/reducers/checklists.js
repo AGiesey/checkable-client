@@ -1,23 +1,31 @@
 import {
   ADD_CHECKLIST,
-  RENAME_CHECKLISTADD_CHECKLIST,
-  SET_STATUS_CHECKLISTADD_CHECKLIST,
-  DELETE_CHECKLISTADD_CHECKLIST,
-  ADD_ITEM_CHECKLISTADD_CHECKLIST,
-  RENAME_ITEM_CHECKLISTADD_CHECKLIST,
-  SET_STATUS_ITEM_CHECKLISTADD_CHECKLIST,
-  DELETE_ITEM_CHECKLISTADD_CHECKLIST,
+  REMOVE_CHECKLIST,
+  IS_FETCHING,
 } from '../actionTypes';
 
 const initialState = {
-  checklists: [{id: 1, name: 'hello world'}]
+  isFetching: false,
+  checklists: {}
 }
 
 export default function(state = initialState, action) {
   switch (action.type) {
-    case ADD_CHECKLIST: {
-
-    }
+    case ADD_CHECKLIST: 
+      return Object.assign({}, state, {
+        checklists: {
+          ...state.checklists,
+          [action.checklist._id]: action.checklist
+        }
+      })
+    case REMOVE_CHECKLIST: 
+      return Object.assign({}, state, {
+        checklists: {...state.checklists.filter(checklist => checklist._id !== action.checklistId)}
+      })
+    case IS_FETCHING:
+      return Object.assign({}, state, {
+        isFetching: action.isFetching
+      })
     default: 
       return state;
   }
