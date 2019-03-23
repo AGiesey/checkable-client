@@ -17,8 +17,6 @@ class Checklist extends React.Component {
       loading: true,
       checklist: {}
     }
-    console.log('HERE', this.state);
-    console.log('PROPS', this.props);
 
     this.handleChange = this.handleChange.bind(this);
   }
@@ -36,7 +34,6 @@ class Checklist extends React.Component {
     const checklistId = this.props.match.params.checklistId;
     ChecklistsService.findById(checklistId)
       .then(checklist => {
-        console.log(checklist)
         this.setState({
           loading: false,
           checklist: checklist

@@ -54,8 +54,7 @@ const UsersService = {
   updateLocalStorageUser(user) {
     user.authData = JSON.parse(localStorage.getItem('user')).authData;
     localStorage.setItem('user', JSON.stringify(user))
-    
-    console.log('Local Storage User', JSON.parse(localStorage.getItem('user')));
+
   }
 }
 
