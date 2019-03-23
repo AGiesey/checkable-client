@@ -9,7 +9,8 @@ const UsersService = {
         if (response && response.status === 200) {
           const user = response.data;
           user.authData = window.btoa(`${useremail}:${password}`);
-          localStorage.setItem('user', JSON.stringify(user))
+          localStorage.setItem('user', JSON.stringify(user));
+          return user;
         }
       })
   },

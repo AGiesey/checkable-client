@@ -14,8 +14,8 @@ export default function(state = initialState, action) {
   switch (action.type) {
     case ADD_CURRENT_USER:
       return Object.assign({}, state, {
-        currentUser: action.user,
-        isLoggedIn: !!action.user
+        currentUser: action.currentUser,
+        isLoggedIn: !!action.currentUser
       });
     case REMOVE_CURRENT_USER:
       return Object.assign({}, state, {

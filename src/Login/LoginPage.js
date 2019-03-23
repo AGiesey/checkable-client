@@ -1,8 +1,20 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
+
+import { _addCurrentUser } from '../_redux/actions';
+
 import { UsersService } from '../_services/users.service';
 import { AppBar } from '../App/AppBar';
+
+function mapDispatchToProps(dispatch) {
+  return {
+    dispatch,
+    ...bindActionCreators({ _addCurrentUser }, dispatch)
+  }
+}
 
 class LoginPage extends React.Component {
   constructor(props) {
@@ -39,6 +51,7 @@ class LoginPage extends React.Component {
     UsersService.login(username, password)
       .then(
         user => {
+          this.props._addCurrentUser(user);
           // Route the user to the checklists page upon login
           const { from } = { from: { pathname: "/checklists"} };
           this.props.history.push(from);
@@ -76,10 +89,9 @@ class LoginPage extends React.Component {
           <p>Don't have a Checkable account? Sign up <Link to={'/sign-up'}>Here.</Link></p>
         </div>
       </React.Fragment>
-      
-      
     )
   }
 }
 
+LoginPage = connect(null, mapDispatchToProps)(LoginPage)
 export { LoginPage };
