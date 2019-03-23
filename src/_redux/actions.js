@@ -3,7 +3,8 @@ import {
   REMOVE_CHECKLIST,
   ADD_CURRENT_USER,
   REMOVE_CURRENT_USER,
-  IS_FETCHING
+  IS_FETCHING,
+  LOGOUT
 } from './actionTypes';
 import { ChecklistsService } from '../_services/checklists.service';
 import { UsersService } from '../_services/users.service';
@@ -28,9 +29,13 @@ export const _addCurrentUser = user => ({
   currentUser: user
 })
 
-export const _removeCurrentUser = () => {
+export const _removeCurrentUser = () => ({
   type: REMOVE_CURRENT_USER
-}
+})
+
+export const _logout = () => ({
+  type: LOGOUT
+})
 
 export function addAllChecklistsForUserAsync(userId) {
   

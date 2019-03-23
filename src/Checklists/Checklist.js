@@ -1,44 +1,31 @@
 import React from 'react';
 
 import { connect } from 'react-redux';
-import { getAllChecklists } from '../_redux/selectors'
+import { getChecklistById } from '../_redux/selectors'
 
-import { ChecklistsService } from '../_services/checklists.service';
 import { CreateChecklistItem } from './ChecklistItems/CreateChecklistItem';
 import { EditChecklist } from './EditChecklist';
 import { ChecklistItem } from './ChecklistItems/ChecklistItem';
 
+function mapStateToProps(state, ownProps) {
+  const checklist = getChecklistById(state, ownProps.match.params.checklistId)
+  return { checklist };
+}
 
 class Checklist extends React.Component {
   constructor(props) {
     super(props)
 
     this.state = {
-      loading: true,
-      checklist: {}
+      checklist: this.props.checklist
     }
 
     this.handleChange = this.handleChange.bind(this);
   }
 
-  devStyles = {
-    border: '3px solid green'
-  }
-
   handleChange(e) {
     const { name, value } = e.target;
     this.setState({ [name]: value });
-  }
-
-  componentDidMount() {
-    const checklistId = this.props.match.params.checklistId;
-    ChecklistsService.findById(checklistId)
-      .then(checklist => {
-        this.setState({
-          loading: false,
-          checklist: checklist
-        })
-      })
   }
 
   componentWillUnmount() {
@@ -48,11 +35,8 @@ class Checklist extends React.Component {
   }
 
   render() {
-    const {loading, checklist} = this.state;
+    const { checklist } = this.state;
 
-    if(loading) {
-      return <h4>Loading...</h4>
-    }
     return (
       <div className="col-md-6 col-md-offset-3">
         <h2>{checklist.name}
@@ -115,11 +99,6 @@ class Checklist extends React.Component {
       
     )
   }
-}
-
-const mapStateToProps = state => {
-  const checklists = getAllChecklists(state)
-  return { checklists };
 }
 
 Checklist = connect(mapStateToProps)(Checklist)

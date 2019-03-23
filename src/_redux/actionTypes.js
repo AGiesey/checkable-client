@@ -5,3 +5,5 @@ export const ADD_CURRENT_USER = 'ADD_CURRENT_USER';
 export const REMOVE_CURRENT_USER = 'REMOVE_CURRENT_USER';
 
 export const IS_FETCHING = 'IS_FETCHING';
+
+export const LOGOUT = 'LOGOUT';

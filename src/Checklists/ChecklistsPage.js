@@ -5,6 +5,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
 import { _addChecklist, addAllChecklistsForUserAsync } from '../_redux/actions';
+import { getAllChecklistsArray } from '../_redux/selectors';
 
 import { AppBar } from '../App/AppBar';
 import { ChecklistList } from './ChecklistList';
@@ -15,7 +16,7 @@ import { Checklist } from './Checklist';
 function mapStateToProps(state, ownProps) {
   return {
     isFetching: state.checklists.isFetching,
-    checklists: Object.entries(state.checklists.checklists).map(entry => entry[1])
+    checklists: getAllChecklistsArray(state)
   }
 }
 

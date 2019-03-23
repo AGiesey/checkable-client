@@ -1,6 +1,19 @@
 import React from 'react';
+
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+
+import { _addChecklist } from '../../_redux/actions';
+
 import { ChecklistsService } from '../../_services/checklists.service';
 import { ChecklistItemStatuses } from '../../_helpers/checklist-item-statuses';
+
+function mapDispatchToProps(dispatch) {
+  return {
+    dispatch,
+    ...bindActionCreators({ _addChecklist }, dispatch)
+  }
+}
 
 class CreateChecklistItem extends React.Component {
   constructor(props) {
@@ -25,7 +38,7 @@ class CreateChecklistItem extends React.Component {
       name: this.state.name, 
       status: ChecklistItemStatuses.find(status => status.value === 'NOT_STARTED').value
     })
-    .then(checklist => console.log(checklist));
+    .then(checklist => this.props._addChecklist(checklist));
   }
 
   render() {
@@ -48,4 +61,5 @@ class CreateChecklistItem extends React.Component {
   }
 }
 
+CreateChecklistItem = connect(null, mapDispatchToProps)(CreateChecklistItem);
 export { CreateChecklistItem };

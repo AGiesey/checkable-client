@@ -1,7 +1,19 @@
 import React from 'react';
 import { Link, Redirect } from 'react-router-dom';
 
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+
+import { _logout } from '../_redux/actions';
+
 import { UsersService } from '../_services/users.service';
+
+function mapDispatchToProps(dispatch) {
+  return {
+    dispatch,
+    ...bindActionCreators({ _logout }, dispatch)
+  }
+}
 
 class AppBar extends React.Component {
   constructor(props) {
@@ -19,6 +31,7 @@ class AppBar extends React.Component {
   logout() {
     UsersService.logout()
     .then(() => {
+      this.props._logout();
       this.setState({
         redirectToLogin: true,
         user: undefined,
@@ -34,8 +47,6 @@ class AppBar extends React.Component {
       loggedIn: !!user
     })
   }
-
-  
 
   render() {
     if (this.state.redirectToLogin) {
@@ -72,4 +83,5 @@ class AppBar extends React.Component {
   }
 }
 
+AppBar = connect(null, mapDispatchToProps)(AppBar);
 export { AppBar };

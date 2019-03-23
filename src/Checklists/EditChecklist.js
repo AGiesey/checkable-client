@@ -4,7 +4,7 @@ import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
-import { _addChecklist, addChecklistByIdAsync } from '../_redux/actions';
+import { _removeChecklist, addChecklistByIdAsync } from '../_redux/actions';
 
 import { ChecklistStatuses } from '../_helpers/checklist-statuses'
 import { ChecklistsService } from '../_services/checklists.service';
@@ -12,7 +12,7 @@ import { ChecklistsService } from '../_services/checklists.service';
 function mapDispatchToProps(dispatch) {
   return {
     dispatch,
-    ...bindActionCreators({ _addChecklist, addChecklistByIdAsync }, dispatch)
+    ...bindActionCreators({ _removeChecklist, addChecklistByIdAsync }, dispatch)
   }
 }
 
@@ -56,7 +56,7 @@ class EditChecklist extends React.Component {
     if (requests.length > 0 ) {
       Promise.all(requests)
         .then(
-          (responses) => {
+          () => {
             this.props.addChecklistByIdAsync(this.props.checklistId)
             alert('Checklist Saved')
           }
@@ -71,6 +71,7 @@ class EditChecklist extends React.Component {
     ChecklistsService.deleteChecklist(this.props.checklistId)
       .then(
         () => {
+          this.props._removeChecklist(this.props.checklistId)
           alert('Checklist Deleted');
           this.setState({
             checklistDeleted: true

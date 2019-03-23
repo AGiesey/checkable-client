@@ -1,7 +1,5 @@
 import React from 'react';
 
-import { ChecklistItemStatuses } from '../../_helpers/checklist-item-statuses';
-import { ChecklistsService } from '../../_services/checklists.service';
 import { EditChecklistItem } from './EditChecklistItem';
 
 class ChecklistItem extends React.Component {
