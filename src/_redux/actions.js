@@ -32,7 +32,7 @@ export const _removeCurrentUser = () => {
   type: REMOVE_CURRENT_USER
 }
 
-export function getAllChecklistsForUser(userId) {
+export function addAllChecklistsForUserAsync(userId) {
   
   return function(dispatch) {
     dispatch(_isFetching(true));
@@ -40,6 +40,19 @@ export function getAllChecklistsForUser(userId) {
     return ChecklistsService.findAllForUser(userId)
       .then(checklists => {
         checklists.map(checklist => dispatch(_addChecklist(checklist)));
+        dispatch(_isFetching(false));
+      })
+  }
+}
+
+export function addChecklistByIdAsync(checklistId) {
+
+  return function(dispatch) {
+    dispatch(_isFetching(true));
+
+    return ChecklistsService.findById(checklistId)
+      .then(checklist => {
+        dispatch(_addChecklist(checklist));
         dispatch(_isFetching(false));
       })
   }

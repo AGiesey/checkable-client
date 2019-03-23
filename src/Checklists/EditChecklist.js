@@ -1,8 +1,20 @@
 import React from 'react';
 import { Redirect } from 'react-router-dom';
 
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+
+import { _addChecklist, addChecklistByIdAsync } from '../_redux/actions';
+
 import { ChecklistStatuses } from '../_helpers/checklist-statuses'
 import { ChecklistsService } from '../_services/checklists.service';
+
+function mapDispatchToProps(dispatch) {
+  return {
+    dispatch,
+    ...bindActionCreators({ _addChecklist, addChecklistByIdAsync }, dispatch)
+  }
+}
 
 class EditChecklist extends React.Component {
   constructor(props) {
@@ -44,7 +56,10 @@ class EditChecklist extends React.Component {
     if (requests.length > 0 ) {
       Promise.all(requests)
         .then(
-          () => alert('Checklist Saved')
+          (responses) => {
+            this.props.addChecklistByIdAsync(this.props.checklistId)
+            alert('Checklist Saved')
+          }
         )
         .catch(err => console.error(err))
     }
@@ -100,4 +115,5 @@ class EditChecklist extends React.Component {
   }
 }
 
+EditChecklist = connect(null, mapDispatchToProps)(EditChecklist);
 export { EditChecklist };

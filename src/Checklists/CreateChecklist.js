@@ -1,8 +1,20 @@
 import React from 'react';
 import { Redirect } from 'react-router-dom';
 
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+
+import { _addChecklist } from '../_redux/actions';
+
 import { ChecklistsService } from '../_services/checklists.service';
 import '../_styles/create-checklist.css';
+
+function mapDispatchToProps(dispatch) {
+  return {
+    dispatch,
+    ...bindActionCreators({ _addChecklist }, dispatch)
+  }
+}
 
 class CreateChecklist extends React.Component {
   constructor(props) {
@@ -54,6 +66,7 @@ class CreateChecklist extends React.Component {
 
     ChecklistsService.createChecklist(checklist)
       .then(checklist => {
+        this.props._addChecklist(checklist);
         this.setState({id: checklist._id})
       })
   }
@@ -104,4 +117,5 @@ class CreateChecklist extends React.Component {
   }
 }
 
+CreateChecklist = connect(null, mapDispatchToProps)(CreateChecklist)
 export { CreateChecklist };

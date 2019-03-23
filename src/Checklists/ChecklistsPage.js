@@ -4,18 +4,25 @@ import { Route } from 'react-router-dom';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
-import { ChecklistsService } from '../_services/checklists.service';
-import { _addChecklist } from '../_redux/actions';
+import { _addChecklist, addAllChecklistsForUserAsync } from '../_redux/actions';
 
 import { AppBar } from '../App/AppBar';
 import { ChecklistList } from './ChecklistList';
 import { CreateChecklist } from './CreateChecklist';
 import { Checklist } from './Checklist';
 
+// own props is if the component needs data from its own props to get data from the store
+function mapStateToProps(state, ownProps) {
+  return {
+    isFetching: state.checklists.isFetching,
+    checklists: Object.entries(state.checklists.checklists).map(entry => entry[1])
+  }
+}
+
 function mapDispatchToProps(dispatch) {
   return {
     dispatch,
-    ...bindActionCreators({ _addChecklist }, dispatch)
+    ...bindActionCreators({ _addChecklist, addAllChecklistsForUserAsync }, dispatch)
   }
 }
 
@@ -24,36 +31,39 @@ class ChecklistsPage extends React.Component {
       super(props);
 
       this.state = {
-          user: {},
-          checklists: []
+        user: {},
       };
   }
 
   componentDidMount() {
       this.setState({ 
           user: JSON.parse(localStorage.getItem('user')),
-          checklists: []
       }, () => {
-        ChecklistsService.findAllForUser(this.state.user._id)
-          .then(checklists => {
-            checklists.forEach(checklist => this.props._addChecklist(checklist));
-            this.setState({ checklists });
-          });
+        const userId = this.state.user._id;
+        this.props.addAllChecklistsForUserAsync(userId);
       });
   }
 
   render() {
-    const { user, checklists } = this.state;
+    const { user } = this.state;
+    const {checklists, isFetching } = this.props;
     return (
       <React.Fragment>
         <AppBar />
-        <Route exact path="/checklists" render={(props) => <ChecklistList {...props} user={user} checklists={checklists}/>} />
-        <Route path="/checklists/checklist/:checklistId" render={(props) => <Checklist {...props} />} />
-        <Route path="/checklists/create" render={(props) => <CreateChecklist {...props} userId={user._id} />} />
+        {isFetching
+          ? <p>Loading...</p>
+          : (
+            <React.Fragment>
+              <Route exact path="/checklists" render={(props) => <ChecklistList {...props} user={user} checklists={checklists}/>} />
+              <Route path="/checklists/checklist/:checklistId" render={(props) => <Checklist {...props} />} />
+              <Route path="/checklists/create" render={(props) => <CreateChecklist {...props} userId={user._id} />} />
+            </React.Fragment>
+          )
+        }  
       </React.Fragment>
     );
   }
 }
 
-ChecklistsPage = connect(null, mapDispatchToProps)(ChecklistsPage);
+ChecklistsPage = connect(mapStateToProps, mapDispatchToProps)(ChecklistsPage);
 export { ChecklistsPage };
