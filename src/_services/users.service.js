@@ -1,6 +1,14 @@
 import axios from 'axios';
 
 const UsersService = {
+
+  getUserById: function(userId) {
+    return axios.get(`http://localhost:3001/users/findById/${userId}`)
+      .then(response => {
+        return response.data;
+      })
+  },
+
   login: function(useremail, password) {
     const encodedURI = window.encodeURI(`http://localhost:3001/login/${useremail}/login`);
 

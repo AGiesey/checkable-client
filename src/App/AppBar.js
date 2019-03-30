@@ -59,6 +59,7 @@ class AppBar extends React.Component {
           <React.Fragment>
             <li><Link to={'/checklists'}>Checklists</Link></li>
             <li><Link to={'/profile'}>Profile</Link></li>
+            <li><Link to={'/collaborators'}>Collaborators</Link></li>
           </React.Fragment>
         );
       }

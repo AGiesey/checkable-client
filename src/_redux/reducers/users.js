@@ -1,6 +1,8 @@
 import {
   ADD_CURRENT_USER,
   REMOVE_CURRENT_USER,
+  ADD_USER,
+  REMOVE_USER,
   IS_FETCHING,
   LOGOUT
 } from '../actionTypes';
@@ -22,6 +24,18 @@ export default function(state = initialState, action) {
       return Object.assign({}, state, {
         currentUser: {},
         isLoggedIn: false
+      })
+    case ADD_USER:
+      return Object.assign({}, state, {
+        users: {
+          ...state.users,
+          [action.user._id]: action.user
+        }
+      })
+    case REMOVE_USER:
+      delete state.users[action.userId];
+      return Object.assign({}, state, {
+        users: {...state.users}
       })
     case IS_FETCHING:
       return Object.assign({}, state, {

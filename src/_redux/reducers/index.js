@@ -1,6 +1,7 @@
 import { combineReducers } from 'redux';
 
 import checklists from './checklists';
-import user from './user';
+import users from './users';
+import collaborations from './collaborations';
 
-export default combineReducers({ checklists, user });
+export default combineReducers({ checklists, users, collaborations });
