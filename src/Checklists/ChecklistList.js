@@ -5,7 +5,6 @@ import PropTypes from 'prop-types';
 import { ChecklistListItem } from './ChecklistListItem';
 
 const ChecklistList = ({ user, checklists }) => {
-  console.log('CHECKLISTS LIST', checklists)
   return (
   <div className="col-md-6 col-md-offset-3">
     <h2>

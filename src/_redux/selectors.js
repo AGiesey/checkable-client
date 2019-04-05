@@ -5,3 +5,5 @@ export const getAllCollaborationsArray = store => Object.entries(store.collabora
 export const getChecklistById = (store, checklistId) => store.checklists.checklists[checklistId];
 
 export const getCurrentUser = store => store.user.currentUser;
+
+export const getUserById = (store, userId) => store.users.users[userId];

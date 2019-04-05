@@ -10,7 +10,8 @@ import {
 const initialState = {
   isFetching: false,
   isLoggedIn: false,
-  currentUser: {}
+  currentUser: {},
+  users: {}
 }
 
 export default function(state = initialState, action) {

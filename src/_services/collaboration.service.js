@@ -15,6 +15,22 @@ const CollaborationService = {
         return response.data;
       })
   },
+
+  inviteCollaborator: function(userId, collaboratorEmail) {
+    return axios.post(`http://localhost:3001/collaborations/createCollaboration`, {
+      userId: userId,
+      collaboratorEmail: collaboratorEmail
+    }).then(response => {
+      return response.data
+    })
+  },
+
+  setCollaborationStatus: function(collaborationId, status) {
+    return axios.put(`http://localhost:3001/collaborations/${collaborationId}/updateStatus/${status}`, null)
+      .then(response => {
+        return response.data
+      })
+  }
 }
 
 export { CollaborationService };

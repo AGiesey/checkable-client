@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
-import { _addCurrentUser } from '../_redux/actions';
+import { _addCurrentUser, _addUser } from '../_redux/actions';
 
 import { UsersService } from '../_services/users.service';
 import { AppBar } from '../App/AppBar';
@@ -12,7 +12,7 @@ import { AppBar } from '../App/AppBar';
 function mapDispatchToProps(dispatch) {
   return {
     dispatch,
-    ...bindActionCreators({ _addCurrentUser }, dispatch)
+    ...bindActionCreators({ _addCurrentUser, _addUser }, dispatch)
   }
 }
 
@@ -54,6 +54,8 @@ class LoginPage extends React.Component {
           this.props._addCurrentUser(user);
           // Route the user to the checklists page upon login
           const { from } = { from: { pathname: "/checklists"} };
+          this.props._addUser(user);
+          this.props._addCurrentUser(user);
           this.props.history.push(from);
         },
         error => this.setState({ error, loading: false })
