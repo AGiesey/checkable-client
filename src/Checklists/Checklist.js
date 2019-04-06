@@ -31,11 +31,21 @@ class Checklist extends React.Component {
   componentWillUnmount() {
     // TODO: This is an embarrising hack because I've stooped to using bootstrap 3, replace all.
     const closeButton = document.getElementById('close-edit-checklist')
-    closeButton.click();
+
+    if(closeButton) {
+      closeButton.click();
+    }
   }
 
   render() {
     const { checklist } = this.state;
+    if (!checklist) {
+      return (
+        <div className="col-md-6 col-md-offset-3">
+          loading...
+        </div>
+      )
+    }
 
     return (
       <div className="col-md-6 col-md-offset-3">
@@ -73,7 +83,7 @@ class Checklist extends React.Component {
           <div className="modal-dialog" role="document">
             <div className="modal-content">
               <div className="modal-header">
-                <button type="button" className="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <button type="button" className="close" id="close-create-checklist" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 <h4 className="modal-title" id="myModalLabel">Add Checklist Item</h4>
               </div>
               <div className="modal-body">

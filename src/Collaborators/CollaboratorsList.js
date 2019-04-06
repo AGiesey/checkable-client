@@ -29,7 +29,7 @@ class CollaboratorsList extends React.Component {
           <div className="modal-dialog" role="document">
             <div className="modal-content">
               <div className="modal-header">
-                <button type="button" className="close" id="close-edit-checklist" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <button type="button" className="close" id="close-invite-collaborator" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 <h4 className="modal-title" id="myModalLabel">Invite Collaborator</h4>
               </div>
               <div className="modal-body">

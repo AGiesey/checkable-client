@@ -1,8 +1,7 @@
 import {
   ADD_CHECKLIST,
   REMOVE_CHECKLIST,
-  IS_FETCHING,
-  LOGOUT
+  IS_FETCHING
 } from '../actionTypes';
 
 const initialState = {
@@ -28,8 +27,6 @@ export default function(state = initialState, action) {
       return Object.assign({}, state, {
         isFetching: action.isFetching
       })
-    case LOGOUT:
-      return Object.assign({}, initialState);
     default: 
       return state;
   }

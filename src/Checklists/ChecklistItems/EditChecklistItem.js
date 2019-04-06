@@ -56,7 +56,6 @@ class EditChecklistItem extends React.Component {
         .then(
           () => {
             this.props.addChecklistByIdAsync(this.props.checklistId);
-            alert('Checklist Item Saved');
           }
         )
         .catch(err => console.error(err))
@@ -70,7 +69,6 @@ class EditChecklistItem extends React.Component {
       .then(
         () => {
           this.props.addChecklistByIdAsync(this.props.checklistId)
-          alert('Checklist Item Deleted')
         }
       )
   }

@@ -3,7 +3,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
-import { _addChecklist } from '../../_redux/actions';
+import { addChecklistByIdAsync } from '../../_redux/actions';
 
 import { ChecklistsService } from '../../_services/checklists.service';
 import { ChecklistItemStatuses } from '../../_helpers/checklist-item-statuses';
@@ -11,7 +11,7 @@ import { ChecklistItemStatuses } from '../../_helpers/checklist-item-statuses';
 function mapDispatchToProps(dispatch) {
   return {
     dispatch,
-    ...bindActionCreators({ _addChecklist }, dispatch)
+    ...bindActionCreators({ addChecklistByIdAsync }, dispatch)
   }
 }
 
@@ -38,7 +38,14 @@ class CreateChecklistItem extends React.Component {
       name: this.state.name, 
       status: ChecklistItemStatuses.find(status => status.value === 'NOT_STARTED').value
     })
-    .then(checklist => this.props._addChecklist(checklist));
+    .then(() => {
+      //TODO: Remove this when I upgrade the UI framework from Bootstrap 3.7
+      const closeCreateDialog = document.getElementById('close-create-checklist');
+      if (closeCreateDialog) {
+        closeCreateDialog.click();
+      }
+      this.props.addChecklistByIdAsync(this.props.checklistId)
+    });
   }
 
   render() {
