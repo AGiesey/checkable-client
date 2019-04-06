@@ -19,7 +19,7 @@ class CollaboratorsList extends React.Component {
             Invite Collaborator
           </button>
         </h2>
-        <div className="col-md-12">
+        <div className="col-md-12d">
           <h2>
             {`${user.givenName} ${user.surName}'s collaborators:`}
           </h2>

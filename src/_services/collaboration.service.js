@@ -30,6 +30,10 @@ const CollaborationService = {
       .then(response => {
         return response.data
       })
+  },
+
+  deleteCollaboration: function(collaborationId) {
+    return axios.delete(`http://localhost:3001/collaborations/${collaborationId}/deleteCollaboration`)
   }
 }
 

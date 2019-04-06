@@ -4,7 +4,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
 import { getUserById } from '../_redux/selectors';
-import { _addCollaboration } from '../_redux/actions';
+import { _addCollaboration, _removeCollaboration} from '../_redux/actions';
 
 import { CollaborationStatuses } from '../_helpers/collaboration-statuses';
 import { CollaborationService } from '../_services/collaboration.service';
@@ -19,7 +19,7 @@ function mapStateToProps(state, ownProps) {
 function mapDispatchToProps(dispatch) {
   return {
     dispatch,
-    ...bindActionCreators({ _addCollaboration }, dispatch)
+    ...bindActionCreators({ _addCollaboration, _removeCollaboration }, dispatch)
   }
 }
 
@@ -34,6 +34,7 @@ class CollaborationListItem extends React.Component {
 
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.deleteCollaboration = this.deleteCollaboration.bind(this);
   }
 
   handleChange(e) {
@@ -53,6 +54,13 @@ class CollaborationListItem extends React.Component {
         this.props._addCollaboration(collaboration);
       }, error => {
         console.error(error);
+      })
+  }
+
+  deleteCollaboration() {
+    CollaborationService.deleteCollaboration(this.props.collaboration._id)
+      .then(any => {
+        this.props._removeCollaboration(this.props.collaboration._id)
       })
   }
 
@@ -86,6 +94,7 @@ class CollaborationListItem extends React.Component {
             </div>
             <hr />
             <div>
+              <button type="button" className="btn btn-warning" onClick={this.deleteCollaboration}>Delete Collaboration</button>&nbsp;
               <button type="submit" className="btn btn-primary">Save</button>
             </div>
           </form>
