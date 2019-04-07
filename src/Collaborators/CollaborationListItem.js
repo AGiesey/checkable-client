@@ -28,8 +28,11 @@ class CollaborationListItem extends React.Component {
   constructor(props) {
     super(props);
 
+    // TODO: This isn't working
     this.state = {
-      statusId: this.props.collaboration.status.id
+      statusId: this.props.collaboration && this.props.collaboration.status 
+        ? this.props.collaboration.status.id
+        : 0
     }
 
     this.handleChange = this.handleChange.bind(this);

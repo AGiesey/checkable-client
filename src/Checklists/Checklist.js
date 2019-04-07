@@ -1,15 +1,35 @@
 import React from 'react';
 
+import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { getChecklistById } from '../_redux/selectors'
+import { getChecklistById, getCollaborationByCollaboratorId, getAllVerifiedCollaborations, getUserById } from '../_redux/selectors'
+import { addAllCollaborationsForUserAsync, _isFetching } from '../_redux/actions'
 
 import { CreateChecklistItem } from './ChecklistItems/CreateChecklistItem';
 import { EditChecklist } from './EditChecklist';
 import { ChecklistItem } from './ChecklistItems/ChecklistItem';
 
+import { CollaborationListItem } from '../Collaborators/CollaborationListItem';
+
 function mapStateToProps(state, ownProps) {
-  const checklist = getChecklistById(state, ownProps.match.params.checklistId)
-  return { checklist };
+  const checklist = getChecklistById(state, ownProps.match.params.checklistId);
+
+  return { 
+    isFetching: _isFetching(state),
+    checklist: checklist,
+    editCollaborators: false,
+    allVerifiedCollaborators: getAllVerifiedCollaborations(state),
+    checklistCollaborators: checklist && checklist.collaboratorIds 
+      ? checklist.collaboratorIds.map(collaboratorId => getUserById(state, collaboratorId))
+      : []
+  };
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    dispatch,
+    ...bindActionCreators({ addAllCollaborationsForUserAsync }, dispatch)
+  }
 }
 
 class Checklist extends React.Component {
@@ -21,11 +41,7 @@ class Checklist extends React.Component {
     }
 
     this.handleChange = this.handleChange.bind(this);
-  }
-
-  handleChange(e) {
-    const { name, value } = e.target;
-    this.setState({ [name]: value });
+    this.toggleEditCollaborators = this.toggleEditCollaborators.bind(this);
   }
 
   componentWillUnmount() {
@@ -37,9 +53,20 @@ class Checklist extends React.Component {
     }
   }
 
+  handleChange(e) {
+    const { name, value } = e.target;
+    this.setState({ [name]: value });
+  }
+
+  toggleEditCollaborators() {
+    this.setState({editCollaborators: !this.state.editCollaborators})
+  }
+
   render() {
     const { checklist } = this.state;
-    if (!checklist) {
+    const { checklistCollaborators } = this.props;
+
+    if (!checklist || !Array.isArray(checklistCollaborators)) {
       return (
         <div className="col-md-6 col-md-offset-3">
           loading...
@@ -67,6 +94,16 @@ class Checklist extends React.Component {
           <div className="col-md-3">
             <label htmlFor="checklist-name">Last Updated:</label>
             <p>{new Date(checklist.updatedAt).toDateString()}</p>
+          </div>
+        </div>
+        <div className="row">
+          <div className="col-md-12">
+            <label htmlFor="checklist-name">Collaborators:</label>
+            { checklistCollaborators.length === 0 
+              ? <p>Select collaborators in the edit window.</p>
+              : checklistCollaborators.map(collaborator => collaborator && collaborator._id 
+                ? <li key={collaborator._id}>{collaborator.givenName + ' ' + collaborator.surName}</li>
+                : '')}
           </div>
         </div>
         <hr />
@@ -100,7 +137,7 @@ class Checklist extends React.Component {
                 <h4 className="modal-title" id="myModalLabel">Edit Checklist</h4>
               </div>
               <div className="modal-body">
-                <EditChecklist checklistId={checklist._id} name={checklist.name} statusId={checklist.status.id}/>
+                <EditChecklist checklistId={checklist._id} name={checklist.name} selectedCollaboratorIds={checklist.collaboratorIds} statusId={checklist.status.id}/>
               </div>
             </div>
           </div>
@@ -111,5 +148,5 @@ class Checklist extends React.Component {
   }
 }
 
-Checklist = connect(mapStateToProps)(Checklist)
+Checklist = connect(mapStateToProps, mapDispatchToProps)(Checklist)
 export { Checklist };

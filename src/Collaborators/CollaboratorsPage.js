@@ -28,7 +28,7 @@ function mapStateToProps(state, ownProps) {
 function mapDispatchToProps(dispatch) {
   return {
     dispatch,
-    ...bindActionCreators({ getCurrentUser, addAllCollaborationsForUserAsync, _isFetching, _addUser }, dispatch)
+    ...bindActionCreators({ getCurrentUser, addAllCollaborationsForUserAsync, _addUser }, dispatch)
   }
 }
 

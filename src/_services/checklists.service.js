@@ -56,7 +56,17 @@ const ChecklistsService = {
 
   deleteChecklistItem: function(checklistId, itemId) {
     return axios.delete(`http://localhost:3001/checklistItems/${checklistId}/${itemId}`)
-  }
+  },
+
+  addChecklistCollaborator: function(checklistId, collaboratorId) {
+    return axios.put(`http://localhost:3001/checklists/${checklistId}/addCollaborator/${collaboratorId}`, null)
+      .then(res => res.data);
+  },
+
+  removeChecklistCollaborator: function(checklistId, collaboratorId) {
+    return axios.put(`http://localhost:3001/checklists/${checklistId}/deleteCollaborator/${collaboratorId}`, null)
+      .then(res => res.data);
+  },
 
 }
 
