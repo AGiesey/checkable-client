@@ -49,6 +49,11 @@ const ChecklistsService = {
       .then(res => res.data);
   },
 
+  updateChecklistItemAssignedToId: function(checklistId, itemId, assignedToId) {
+    return axios.put(`http://localhost:3001/checklistItems/${checklistId}/${itemId}/assignTo/${assignedToId}`, null)
+    .then(res => res.data);
+},
+
   createChecklistItem: function(checklistId, checklistItem) {
     return axios.post(`http://localhost:3001/checklistItems/createChecklistItem/${checklistId}`, checklistItem)
       .then(res => res.data);

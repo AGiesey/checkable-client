@@ -4,7 +4,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
 import { getCurrentUser, getAllCollaborationsArray } from '../_redux/selectors';
-import { _isFetching, _addUser, addAllCollaborationsForUserAsync } from '../_redux/actions';
+import { _isFetching, _addUser, _addCurrentUser, addAllCollaborationsForUserAsync } from '../_redux/actions';
 
 import { AppBar } from '../App/AppBar';
 import { CollaboratorsList } from './CollaboratorsList';
@@ -28,7 +28,7 @@ function mapStateToProps(state, ownProps) {
 function mapDispatchToProps(dispatch) {
   return {
     dispatch,
-    ...bindActionCreators({ getCurrentUser, addAllCollaborationsForUserAsync, _addUser }, dispatch)
+    ...bindActionCreators({ getCurrentUser, addAllCollaborationsForUserAsync, _addUser, _addCurrentUser }, dispatch)
   }
 }
 
@@ -36,6 +36,7 @@ class CollaboratorsPage extends React.Component {
   componentDidMount() {
     this.props.addAllCollaborationsForUserAsync(this.props.user._id)
     // Ensure current user is added to state in "Page" components. TODO: Do this better...
+    this.props._addCurrentUser(this.props.user)
     this.props._addUser(this.props.user);
   }
 

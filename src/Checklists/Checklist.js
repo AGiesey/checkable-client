@@ -114,7 +114,7 @@ class Checklist extends React.Component {
         </h3>
         <div className="col-md-11 chk-pull-to-left-edge">
         <br />
-          {checklist.items.map(item => <ChecklistItem key={item._id} item={item} checklistId={checklist._id}/>)}
+          {checklist.items.map(item => <ChecklistItem key={item._id} item={item} checklistOwnerId={checklist.ownerId} checklistId={checklist._id} checklistCollaborators={checklistCollaborators}/>)}
         </div>
         <div className="modal fade" id="addItem" tabIndex="-1" role="dialog">
           <div className="modal-dialog" role="document">
@@ -124,7 +124,7 @@ class Checklist extends React.Component {
                 <h4 className="modal-title" id="myModalLabel">Add Checklist Item</h4>
               </div>
               <div className="modal-body">
-                <CreateChecklistItem checklistId={checklist._id}/>
+                <CreateChecklistItem checklistId={checklist._id} checklistOwnerId={checklist.ownerId} checklistCollaborators={checklistCollaborators}/>
               </div>
             </div>
           </div>

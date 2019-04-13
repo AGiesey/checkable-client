@@ -4,7 +4,7 @@ import { Route } from 'react-router-dom';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
-import { _addChecklist, addAllChecklistsForUserAsync, addAllCollaborationsForUserAsync } from '../_redux/actions';
+import { _addChecklist, addAllChecklistsForUserAsync, addAllCollaborationsForUserAsync, _addUser, _addCurrentUser } from '../_redux/actions';
 import { getAllChecklistsArray } from '../_redux/selectors';
 
 import { AppBar } from '../App/AppBar';
@@ -23,7 +23,12 @@ function mapStateToProps(state, ownProps) {
 function mapDispatchToProps(dispatch) {
   return {
     dispatch,
-    ...bindActionCreators({ _addChecklist, addAllChecklistsForUserAsync, addAllCollaborationsForUserAsync }, dispatch)
+    ...bindActionCreators({ 
+      _addChecklist,
+      addAllChecklistsForUserAsync,
+      addAllCollaborationsForUserAsync,
+      _addUser,
+      _addCurrentUser }, dispatch)
   }
 }
 
@@ -37,10 +42,13 @@ class ChecklistsPage extends React.Component {
   }
 
   componentDidMount() {
+    const currentUser = JSON.parse(localStorage.getItem('user'))
       this.setState({ 
-          user: JSON.parse(localStorage.getItem('user')),
+          user: currentUser,
       }, () => {
         const userId = this.state.user._id;
+        this.props._addUser(currentUser);
+        this.props._addCurrentUser(currentUser);
         this.props.addAllChecklistsForUserAsync(userId);
         this.props.addAllCollaborationsForUserAsync(userId);
       });

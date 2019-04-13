@@ -21,7 +21,8 @@ class EditChecklistItem extends React.Component {
 
     this.state = {
       name: this.props.name,
-      statusId: this.props.statusId
+      statusId: this.props.statusId,
+      assignedToId: this.props.assignedToId || this.props.checklistOwnerId
     }
 
     this.handleChange = this.handleChange.bind(this);
@@ -40,15 +41,19 @@ class EditChecklistItem extends React.Component {
     // If the ui updated the value, its probably a string.
     const statusIdInt = Number.parseInt(this.state.statusId, 10);
 
-    if(!(this.props.name === this.state.name)) {
+    if(this.props.name !== this.state.name) {
       requests.push(ChecklistsService.updateChecklistItemName(this.props.checklistId, this.props.itemId, this.state.name))
     }
 
-    if(!(this.props.statusId === statusIdInt)) {
+    if(this.props.statusId !== statusIdInt) {
       const newStatusObject = ChecklistItemStatuses.find(status => status.id === statusIdInt);
       if (newStatusObject) {
         requests.push(ChecklistsService.updateChecklistItemStatus(this.props.checklistId, this.props.itemId, newStatusObject.value));
       }
+    }
+
+    if(this.props.assignedToId !== this.state.assignedToId) {
+      requests.push(ChecklistsService.updateChecklistItemAssignedToId(this.props.checklistId, this.props.itemId, this.state.assignedToId));
     }
 
     if (requests.length > 0 ) {
@@ -74,7 +79,8 @@ class EditChecklistItem extends React.Component {
   }
 
   render() {
-    const { name, statusId } = this.state;
+    const {checklistCollaborators, checklistOwnerId} = this.props;
+    const { name, statusId, assignedToId } = this.state;
 
     return (
       <div>
@@ -94,6 +100,22 @@ class EditChecklistItem extends React.Component {
                 </select>
               </div>
             </div>
+          </div>
+          <div className="row">
+          <div className="col-md-12">
+            <div className="form-group">
+              <label htmlFor="assignedToId">Assign To:</label>
+              <select className="form-control" name="assignedToId" value={assignedToId} onChange={this.handleChange}>
+                <option value={checklistOwnerId}>Checklist Owner</option>
+                {Array.isArray(checklistCollaborators) && checklistCollaborators.length > 0
+                  ? checklistCollaborators.map(user => (
+                    user && user._id 
+                      ? <option key={user._id} value={user._id}>{user.givenName + ' ' + user.surName}</option>
+                      : ''))
+                  : '' }
+              </select>
+            </div>
+          </div>
           </div>
           <hr />
           <div>

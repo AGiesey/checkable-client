@@ -21,6 +21,7 @@ class CreateChecklistItem extends React.Component {
 
     this.state = {
       name: '',
+      assignedToId: '' 
     }
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -36,7 +37,8 @@ class CreateChecklistItem extends React.Component {
 
     ChecklistsService.createChecklistItem(this.props.checklistId, {
       name: this.state.name, 
-      status: ChecklistItemStatuses.find(status => status.value === 'NOT_STARTED').value
+      status: ChecklistItemStatuses.find(status => status.value === 'NOT_STARTED').value,
+      assignedToId: this.state.assignedToId
     })
     .then(() => {
       //TODO: Remove this when I upgrade the UI framework from Bootstrap 3.7
@@ -49,7 +51,8 @@ class CreateChecklistItem extends React.Component {
   }
 
   render() {
-    const {name} = this.state;
+    const {checklistCollaborators, checklistOwnerId} = this.props;
+    const {name, assignedToId} = this.state;
     return (
       <div>
         <form name="addChecklistItemForm" onSubmit={this.handleSubmit}>
@@ -57,6 +60,20 @@ class CreateChecklistItem extends React.Component {
             <div className="form-group">
               <label htmlFor="name">Name:</label>
               <input type="text" className="form-control" name="name" value={name} onChange={this.handleChange}></input>
+            </div>
+          </div>
+          <div className="col-md-12">
+            <div className="form-group">
+              <label htmlFor="assignedToId">Assign To:</label>
+              <select className="form-control" name="assignedToId" value={assignedToId} onChange={this.handleChange}>
+                <option value={checklistOwnerId}>Checklist Owner</option>
+                {Array.isArray(checklistCollaborators) && checklistCollaborators.length > 0
+                  ? checklistCollaborators.map(user => (
+                    user && user._id 
+                      ? <option key={user._id} value={user._id}>{user.givenName + ' ' + user.surName}</option>
+                      : ''))
+                  : '' }
+              </select>
             </div>
           </div>
           <div>
