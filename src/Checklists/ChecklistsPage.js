@@ -4,8 +4,8 @@ import { Route } from 'react-router-dom';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
-import { _addChecklist, addAllChecklistsForUserAsync, addAllCollaborationsForUserAsync, _addUser, _addCurrentUser } from '../_redux/actions';
-import { getAllChecklistsArray } from '../_redux/selectors';
+import { _addChecklist, addAllChecklistsForUserAsync, addAllUserCollaborationsAsync, _addUser, _addCurrentUser } from '../_redux/actions';
+import { getAllChecklistsArray, isLoggedIn, isFetching } from '../_redux/selectors';
 
 import { AppBar } from '../App/AppBar';
 import { ChecklistList } from './ChecklistList';
@@ -15,7 +15,8 @@ import { Checklist } from './Checklist';
 // own props is if the component needs data from its own props to get data from the store
 function mapStateToProps(state, ownProps) {
   return {
-    isFetching: state.checklists.isFetching,
+    isFetching: isFetching(state, 'checklists'),
+    isLoggedIn: isLoggedIn(state),
     checklists: getAllChecklistsArray(state)
   }
 }
@@ -26,7 +27,7 @@ function mapDispatchToProps(dispatch) {
     ...bindActionCreators({ 
       _addChecklist,
       addAllChecklistsForUserAsync,
-      addAllCollaborationsForUserAsync,
+      addAllUserCollaborationsAsync,
       _addUser,
       _addCurrentUser }, dispatch)
   }
@@ -50,17 +51,17 @@ class ChecklistsPage extends React.Component {
         this.props._addUser(currentUser);
         this.props._addCurrentUser(currentUser);
         this.props.addAllChecklistsForUserAsync(userId);
-        this.props.addAllCollaborationsForUserAsync(userId);
+        this.props.addAllUserCollaborationsAsync(userId);
       });
   }
 
   render() {
     const { user } = this.state;
-    const {checklists, isFetching } = this.props;
+    const {checklists, isFetching, isLoggedIn } = this.props;
     return (
       <React.Fragment>
         <AppBar />
-        {isFetching
+        {isFetching || !isLoggedIn
           ? <p>Loading...</p>
           : (
             <React.Fragment>

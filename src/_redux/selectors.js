@@ -2,9 +2,13 @@ export const getAllChecklistsArray = store => Object.entries(store.checklists.ch
 
 export const getChecklistById = (store, checklistId) => store.checklists.checklists[checklistId];
 
-export const getCurrentUser = store => store.user.currentUser;
+export const getCurrentUser = store => store.users.currentUser;
 
 export const getUserById = (store, userId) => store.users.users[userId];
+
+export const isLoggedIn = store => store.users.isLoggedIn;
+
+export const isFetching = (store, subState) => store[subState] ? store[subState].isFetching : false;
 
 export const getAllCollaborationsArray = store => Object.entries(store.collaborations.collaborations).map(entry => entry[1]);
 

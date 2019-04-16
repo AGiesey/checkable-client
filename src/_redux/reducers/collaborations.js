@@ -1,6 +1,7 @@
 import {
   ADD_COLLABORATION,
   REMOVE_COLLABORATION,
+  LOGOUT,
   IS_FETCHING
 } from '../actionTypes';
 
@@ -27,6 +28,8 @@ export default function(state = initialState, action) {
       return Object.assign({}, state, {
         isFetching: action.isFetching
       })
+    case LOGOUT:
+      return Object.assign({}, initialState)
     default:
       return state;
   }

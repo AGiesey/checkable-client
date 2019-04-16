@@ -2,8 +2,8 @@ import React from 'react';
 
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { getChecklistById, getCollaborationByCollaboratorId, getAllVerifiedCollaborations, getUserById } from '../_redux/selectors'
-import { addAllCollaborationsForUserAsync, _isFetching } from '../_redux/actions'
+import { getChecklistById, getAllVerifiedCollaborations, getUserById } from '../_redux/selectors'
+import { addAllUserCollaborationsAsync, _isFetching } from '../_redux/actions'
 
 import { CreateChecklistItem } from './ChecklistItems/CreateChecklistItem';
 import { EditChecklist } from './EditChecklist';
@@ -28,7 +28,7 @@ function mapStateToProps(state, ownProps) {
 function mapDispatchToProps(dispatch) {
   return {
     dispatch,
-    ...bindActionCreators({ addAllCollaborationsForUserAsync }, dispatch)
+    ...bindActionCreators({ addAllUserCollaborationsAsync }, dispatch)
   }
 }
 

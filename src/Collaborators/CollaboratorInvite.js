@@ -3,7 +3,7 @@ import React from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
-import { _addCollaboration } from '../_redux/actions';
+import { _addCollaboration, addAllUserCollaborationsAsync } from '../_redux/actions';
 
 import { CollaborationService } from '../_services/collaboration.service';
 
@@ -11,7 +11,7 @@ import { CollaborationService } from '../_services/collaboration.service';
 function mapDispatchToProps(dispatch) {
   return {
     dispatch,
-    ...bindActionCreators({ _addCollaboration }, dispatch)
+    ...bindActionCreators({ _addCollaboration, addAllUserCollaborationsAsync }, dispatch)
   }
 }
 
@@ -38,8 +38,13 @@ class CollaboratorInvite extends React.Component {
     e.preventDefault();
 
     CollaborationService.inviteCollaborator(this.props.userId, this.state.collaboratorEmail)
-      .then(collaboration => {
-        this.props._addCollaboration(collaboration);
+      .then(() => {
+        //TODO: Remove this when I upgrade the UI framework from Bootstrap 3.7
+        const closeInviteDialog = document.getElementById('close-invite-collaborator');
+        if (closeInviteDialog) {
+          closeInviteDialog.click();
+        }
+        this.props.addAllUserCollaborationsAsync(this.props.userId);
       }, error => {
         console.error(error);
       })

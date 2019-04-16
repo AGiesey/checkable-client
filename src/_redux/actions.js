@@ -87,17 +87,28 @@ export function addAllChecklistsForUserAsync(userId) {
  * 
  * @param {number} userId 
  */
-export function addAllCollaborationsForUserAsync(userId) {
+export function addAllUserCollaborationsAsync(userId) {
   
   return function(dispatch) {
     dispatch(_isFetching(true));
 
-    return CollaborationService.findAllForUser(userId)
+    return Promise.all([
+      CollaborationService.findAllForUser(userId),
+      CollaborationService.findAllForCollaborator(userId)
+    ]).then(
+      resultsArrays => {
+        return [...resultsArrays[0], ...resultsArrays[1]]
+      })
       .then(collaborations => {
         const userPromises = [];
         collaborations.forEach(collaboration => {
           dispatch(_addCollaboration(collaboration));
-          userPromises.push(UsersService.getUserById(collaboration.collaboratorId))
+          // Get the user of the collaboration who IS NOT the current user (userId)
+          userPromises.push(
+            collaboration.userId === userId
+              ? UsersService.getUserById(collaboration.collaboratorId)
+              : UsersService.getUserById(collaboration.userId)
+          )
         })
         return userPromises;
       })
@@ -123,5 +134,22 @@ export function addChecklistByIdAsync(checklistId) {
         dispatch(_addChecklist(checklist));
         dispatch(_isFetching(false));
       })
+  }
+}
+
+export function testGetEverything(userId) {
+  return function(dispatch) {
+    dispatch(_isFetching(true));
+
+    return Promise.all([
+      CollaborationService.findAllForUser(userId),
+      CollaborationService.findAllForCollaborator(userId)
+    ]).then(
+      results => {
+        dispatch(_isFetching(false));
+        console.log('RESULTS', results);
+        return results;
+      }
+    )
   }
 }

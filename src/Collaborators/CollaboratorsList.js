@@ -14,14 +14,12 @@ class CollaboratorsList extends React.Component {
     }
     return (
       <React.Fragment>
-        <h2>My Collaborations
-          <button type="button" className="btn btn-default chk-float-right" data-toggle="modal" data-target="#collaboratorInvite">
-            Invite Collaborator
-          </button>
-        </h2>
         <div className="col-md-12d">
           <h2>
             {`${user.givenName} ${user.surName}'s collaborators:`}
+            <button type="button" className="btn btn-default chk-float-right" data-toggle="modal" data-target="#collaboratorInvite">
+              Invite Collaborator
+            </button>
           </h2>
           {collaborations.map(collaboration => <CollaborationListItem key={collaboration._id} currentUser={user} collaboration={collaboration} />)}
         </div>
