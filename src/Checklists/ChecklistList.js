@@ -11,7 +11,7 @@ const ChecklistList = ({ user, checklists }) => {
       {`${user.givenName} ${user.surName}'s checklists:`}
       <Link to="/checklists/create"><button type="button" className="btn btn-default chk-float-right" >Create</button></Link>
     </h2>
-    {checklists.map(checklist => <ChecklistListItem key={checklist._id} checklist={checklist} />)}
+    {checklists.map(checklist => <ChecklistListItem key={checklist._id} currentUser={user} checklist={checklist} />)}
   </div>
 )}
 

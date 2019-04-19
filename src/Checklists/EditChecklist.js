@@ -4,16 +4,19 @@ import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
-import { getAllVerifiedCollaborations, getUserById } from '../_redux/selectors';
+import { getAllVerifiedCollaborations, getUserById, getCurrentUser } from '../_redux/selectors';
 import { _removeChecklist, addChecklistByIdAsync } from '../_redux/actions';
 
 import { ChecklistStatuses } from '../_helpers/checklist-statuses'
 import { ChecklistsService } from '../_services/checklists.service';
-import { cpus } from 'os';
 
 function mapStateToProps(state) {
+  const currentUser = getCurrentUser(state)
   return {
-    allCollaborators: getAllVerifiedCollaborations(state).map(collaboration => getUserById(state, collaboration.collaboratorId))
+    allCollaborators: getAllVerifiedCollaborations(state).map(collaboration => {
+      const userId = currentUser._id === collaboration.userId ? collaboration.collaboratorId : collaboration.userId;
+      return getUserById(state, userId)
+    })
   }
 }
 

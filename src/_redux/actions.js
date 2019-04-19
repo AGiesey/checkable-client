@@ -136,20 +136,3 @@ export function addChecklistByIdAsync(checklistId) {
       })
   }
 }
-
-export function testGetEverything(userId) {
-  return function(dispatch) {
-    dispatch(_isFetching(true));
-
-    return Promise.all([
-      CollaborationService.findAllForUser(userId),
-      CollaborationService.findAllForCollaborator(userId)
-    ]).then(
-      results => {
-        dispatch(_isFetching(false));
-        console.log('RESULTS', results);
-        return results;
-      }
-    )
-  }
-}
