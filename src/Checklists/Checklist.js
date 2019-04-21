@@ -2,14 +2,12 @@ import React from 'react';
 
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { getChecklistById, getAllVerifiedCollaborations, getUserById } from '../_redux/selectors'
+import { getChecklistById, getCurrentUser, getAllVerifiedCollaborations, getUserById } from '../_redux/selectors'
 import { addAllUserCollaborationsAsync, _isFetching } from '../_redux/actions'
 
 import { CreateChecklistItem } from './ChecklistItems/CreateChecklistItem';
 import { EditChecklist } from './EditChecklist';
 import { ChecklistItem } from './ChecklistItems/ChecklistItem';
-
-import { CollaborationListItem } from '../Collaborators/CollaborationListItem';
 
 function mapStateToProps(state, ownProps) {
   const checklist = getChecklistById(state, ownProps.match.params.checklistId);
@@ -18,6 +16,7 @@ function mapStateToProps(state, ownProps) {
     isFetching: _isFetching(state),
     checklist: checklist,
     editCollaborators: false,
+    currentUser: getCurrentUser(state),
     allVerifiedCollaborators: getAllVerifiedCollaborations(state),
     checklistCollaborators: checklist && checklist.collaboratorIds 
       ? checklist.collaboratorIds.map(collaboratorId => getUserById(state, collaboratorId))
@@ -64,7 +63,7 @@ class Checklist extends React.Component {
 
   render() {
     const { checklist } = this.state;
-    const { checklistCollaborators } = this.props;
+    const { checklistCollaborators, currentUser } = this.props;
 
     if (!checklist || !Array.isArray(checklistCollaborators)) {
       return (
@@ -77,7 +76,7 @@ class Checklist extends React.Component {
     return (
       <div className="col-md-6 col-md-offset-3">
         <h2>{checklist.name}
-          <button type="button" className="btn btn-default chk-float-right" data-toggle="modal" data-target="#editChecklist">
+          <button type="button" className="btn btn-default chk-float-right" data-toggle="modal" data-target="#editChecklist" disabled={currentUser._id !== checklist.ownerId}>
             Edit
           </button>
         </h2>
